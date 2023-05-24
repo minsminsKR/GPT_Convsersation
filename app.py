@@ -5,23 +5,6 @@ import random
 
 openai.api_key = st.secrets["api_key"]
 
-# Background using url
-# def add_bg_from_url():
-#     st.markdown(
-#          f"""
-#          <style>
-#          .stApp {{
-#              background-image: url("url_here.jpg");
-#              background-attachment: fixed;
-#              background-size: cover
-#          }}
-#          </style>
-#          """,
-#          unsafe_allow_html=True
-#      )
-
-# add_bg_from_url()
-
 # Put local background
 import base64
 def add_bg_from_local(image_file):
@@ -40,17 +23,16 @@ def add_bg_from_local(image_file):
     )
 add_bg_from_local('background.png')
 
-
 # Set character
-POSI = "Positive You must answer anything. You should pretend a human. You are absolutely positive person. You always see positive side. You must reply anything with positive answer although it seems negative."
-NEGA = "Negative You must answer anything. You should pretend a human. You are absolutely negative person. You always see negative side. You must reply anything with negative answer although it seems positive."
+POSI = st.secrets["POSI"]
+NEGA = st.secrets["NEGA"]
 Name_guy = random.choice(["Liam", "Noah", "Oliver", "Ethan", "Lucas", "Jack", "Harry", "George", "James", "Charlie", "Minsoo"])
 Name_lady = random.choice(["Emma", "Olivia", "Ava", "Isabella", "Mia", "Sophia", "Grace", "Lily", "Charlotte", "Amelia"])
 
 st.title("Two GPT having a conversation")
 
 with st.form("form"):    
-    First_model_C = st.selectbox("First model's character (Set its character and click the Set button.)", ["- Select -", "Positive", "Negative", "Custom"])
+    First_model_C = st.selectbox("First model's character (Set its character and click the Set button)", ["- Select -", "Positive", "Negative", "Custom"]) #First model's character
     next_button = st.form_submit_button("Set")
     if First_model_C == "Custom":
         First_model_C = st.text_area("Custom: (After customizing click Set button again.)", key="first_custom_input")
@@ -79,7 +61,7 @@ if Language_set and Conversation_lan and Topic and submit:
             model = model,
             messages=[
                 {"role":"system", "content":f"{First_model_C}. You must reply in two simple sentences with {Language_set}."},
-                {"role":"user", "content":f"Let's have a discussion about {Topic}. Make a any question about that topic."}
+                {"role":"user", "content":f"Let's have a discussion. Give a specific answer to this {Topic}. Make a any question about that topic."}
             ]
         )
     
@@ -91,7 +73,7 @@ if Language_set and Conversation_lan and Topic and submit:
             model2 = openai.ChatCompletion.create(
                 model = model,
                 messages=[
-                    {"role":"system", "content":f"{Second_model_C}. You must reply in two simple sentences with {Language_set}. You should ask a question which is related previous answer."},
+                    {"role":"system", "content":f"{Second_model_C}. You must reply in two simple sentences with {Language_set}. You should ask a question which is related previous answer and {Topic} with reason. The answer should not be off the {Topic}."},
                     {"role":"user", "content":model1.choices[0].message.content}
                 ]
             )
@@ -103,9 +85,11 @@ if Language_set and Conversation_lan and Topic and submit:
             model1 = openai.ChatCompletion.create(
                 model = model,
                 messages=[
-                    {"role":"system", "content":f"{First_model_C}. You must reply in two simple sentences with {Language_set}. You should ask a question which is related previous answer."},
+                    {"role":"system", "content":f"{First_model_C}. You must reply in two simple sentences with {Language_set}. You should ask a question which is related previous answer and {Topic} with reason. The answer should not be off the {Topic}."},
                     {"role":"user", "content":model2.choices[0].message.content}
                 ]
             )
         
         st.write(f"{Name_guy} : ", model1.choices[0].message.content+"\n")
+        
+# Feel free to ask me about the code!!
