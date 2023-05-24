@@ -38,7 +38,7 @@ def add_bg_from_local(image_file):
     """,
     unsafe_allow_html=True
     )
-add_bg_from_local('bg.png')
+add_bg_from_local('background.png')
 
 
 # Set character
@@ -50,7 +50,7 @@ Name_lady = random.choice(["Emma", "Olivia", "Ava", "Isabella", "Mia", "Sophia",
 st.title("Two GPT having a conversation")
 
 with st.form("form"):    
-    First_model_C = st.selectbox("First model's character (Set its character and click the Set button.)", ["Positive", "Negative", "Custom"])
+    First_model_C = st.selectbox("First model's character (Set its character and click the Set button.)", ["- Select -", "Positive", "Negative", "Custom"])
     next_button = st.form_submit_button("Set")
     if First_model_C == "Custom":
         First_model_C = st.text_area("Custom: (After customizing click Set button again.)", key="first_custom_input")
@@ -58,7 +58,7 @@ with st.form("form"):
         First_model_C = POSI if First_model_C == "Positive" else NEGA
 
 with st.form("form_2"):
-    Second_model_C = st.selectbox("Second model's character", ["Positive", "Negative", "Custom"])
+    Second_model_C = st.selectbox("Second model's character", ["- Select -", "Positive", "Negative", "Custom"])
     next_button = st.form_submit_button("Set")
     if Second_model_C == "Custom":
         Second_model_C = st.text_area("Custom: (After customizing click set button again.)", key="second_custom_input")
