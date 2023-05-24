@@ -50,13 +50,12 @@ Name_lady = random.choice(["Emma", "Olivia", "Ava", "Isabella", "Mia", "Sophia",
 st.title("Two GPT having a conversation")
 
 with st.form("form"):    
-    First_model_C = st.selectbox("First model's character", ["Positive", "Negative", "Custom"])
+    First_model_C = st.selectbox("First model's character (Set its character and click the Set button.)", ["Positive", "Negative", "Custom"])
     next_button = st.form_submit_button("Set")
     if First_model_C == "Custom":
-        First_model_C = st.text_area("Custom: (After customizing click set button again.)", key="first_custom_input")
+        First_model_C = st.text_area("Custom: (After customizing click Set button again.)", key="first_custom_input")
     else:
         First_model_C = POSI if First_model_C == "Positive" else NEGA
-    # st.write(First_model_C)
 
 with st.form("form_2"):
     Second_model_C = st.selectbox("Second model's character", ["Positive", "Negative", "Custom"])
@@ -65,7 +64,6 @@ with st.form("form_2"):
         Second_model_C = st.text_area("Custom: (After customizing click set button again.)", key="second_custom_input")
     else:
         Second_model_C = POSI if Second_model_C == "Positive" else NEGA
-    # st.write(Second_model_C)
     
 with st.form("form_3"):
     Language_set = st.text_input("Set Language")
